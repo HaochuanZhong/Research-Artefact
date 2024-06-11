@@ -168,7 +168,8 @@ document.getElementById('myForm').addEventListener('submit', function(event) {
          prompt += `Others: ${others}\n`;
      }
 
-    console.log(prompt.trim()); // Remove the trailing newline
+    const finalPrompt = prompt.trim(); // Remove the trailing newline
+    console.log(finalPrompt); // Remove the trailing newline
 
     fetch('http://localhost:3000', {
         method: 'POST',
@@ -176,12 +177,44 @@ document.getElementById('myForm').addEventListener('submit', function(event) {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
-            message: prompt
+            message: finalPrompt
         })
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data.completion.content)
-        htmlEditor.setValue(data.completion.content,1);
+        const code = data.completion.content
+        console.log(code)
+        htmlEditor.setValue(code,1);
+        // Load history after receiving data
+        loadHistory(finalPrompt, code);
     })
 });
+
+let counting = 0;
+
+function loadHistory(finalPrompt, finalCode){
+
+    counting++
+
+    // Find the history-log div
+    const historyLogDiv = document.getElementById('history-log');
+
+    // Create divs for promptHistory and codeHistory
+    const logCounting = document.createElement('div')
+    logCounting.classList.add('history-text-blue');
+    logCounting.textContent = `Log: ${counting}`;
+    const promptDiv = document.createElement('div');
+    promptDiv.classList.add('history-text-orange')
+    promptDiv.textContent = finalPrompt;
+    const codeDiv = document.createElement('div');
+    codeDiv.classList.add('history-text')
+    codeDiv.textContent = finalCode;
+    const spacing = document.createElement('div');
+    spacing.classList.add('spacing')
+
+    // Append the divs to history-log
+    historyLogDiv.appendChild(logCounting);
+    historyLogDiv.appendChild(promptDiv);
+    historyLogDiv.appendChild(codeDiv);
+    historyLogDiv.appendChild(spacing);
+}

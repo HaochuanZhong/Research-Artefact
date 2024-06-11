@@ -7,10 +7,12 @@ html,body {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
+    height: 100vh;
 }
 
 .preview{
-    width: 65%;
+    width: 50%;
+    overflow-y: auto;
 }
 
 .iframe{
@@ -25,11 +27,55 @@ html,body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 
 .prompt{
     width: 100%;
     padding: 10px;
+}
+
+.history-box{
+    padding-top: 10px;
+}
+
+.history{
+    width: 20%;
+    padding: 20px;
+    background-color:#1f213e;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto;
+}
+
+.history-log{
+    margin-top: 20px;
+}
+
+.history-text{
+    color: #999;
+    padding: 10px;
+    border: 1.5px solid white;
+    font-size: 12px;
+}
+
+.history-text-orange{
+    color: orange;
+    padding: 10px;
+    border: 1.5px solid white;
+    font-size: 12px;
+}
+
+.history-text-blue{
+    color: skyblue;
+    padding: 10px;
+    border: 1.5px solid white;
+    font-size: 12px;
+}
+
+.spacing{
+    height: 10px;
 }
 
 .prompt-form{
