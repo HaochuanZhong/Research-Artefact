@@ -17,38 +17,48 @@
         <div class="editors">
             <div class="prompt">
                 <span class="heading-prompt">Prompt</span>
-                <form class="prompt-form" id="myForm">
+                <span id="loading" style="display:none; margin-left: 10px;"><i class="fa fa-spinner fa-spin"></i> Loading...</span>
+                <form class="prompt-form" id="prompt-form">
                     <div>
                         <label class="label" for="context">Context</label><br>
-                        <textarea class="textbox" id="context" name="context" rows="4" cols="50"></textarea>
+                        <textarea
+                            placeholder="Think about your project position(role), business purpose, target audience, culture and style."
+                            class="textbox" id="context" name="context" rows="4" cols="50"></textarea>
                     </div>
                     <br>
                     <div>
-                        <label class="label" for="description">Task description</label><br>
-                        <textarea class="textbox" id="description" name="description" rows="4" cols="50"></textarea>
+                        <label class="label" for="taskDescription">Task description</label><br>
+                        <textarea
+                            placeholder="Please give a very detailed description of the task. You can think from aspects of (non)textual contents, functions, styles and layouts."
+                            class="textbox" id="taskDescription" name="taskDescription" rows="4" cols="50"></textarea>
                     </div>
                     <br>
                     <div>
-                        <label class="label" for="examples">Examples</label><br>
-                        <input placeholder="Enter an URL" class="urlInput" id="exampleUrl" name="exampleUrl"></input>
-                        <input type="file" class="fileUploader" id="fileUploader" name="fileUploader"><br>
+                        <label class="label" for="examples">Example</label><br>
+                        <textarea
+                            placeholder="You can paste some code examples or templates that you would like AI to follow."
+                            class="textbox" id="codeExample" name="codeExample" rows="4" cols="50"></textarea>
+                        <input type="file" class="fileUploader" id="imgExample" name="imgExample" accept="image/*"><br>
+                        <p class="small-text">*Single image only</p>
                     </div>
                     <br>
                     <div>
                         <label class="label" for="data">Data</label><br>
-                        <input placeholder="Enter a back-end URL" class="urlInput" id="dataUrl" name="dataUrl"></input>
-                        <select class="dropdown" id="dataDropdown" name="dataDropdown">
-                            <option value="" disabled selected>Select an method</option>
-                            <option value="GET">GET</option>
-                            <option value="PUT">PUT</option>
-                            <option value="POST">POST</option>
-                            <option value="DELETE">DELETE</option>
+                        <input placeholder="Enter an URL, where you want to connect data?" class="urlInput" id="dataUrl"
+                            name="dataUrl"></input>
+                        <select class="dropdown" id="dataMethod" name="dataMethod">
+                            <option value="" disabled selected>How you want to handle data?</option>
+                            <option value="GET">I want to retrieve or search(GET)</option>
+                            <option value="PUT">I want to change or update(PUT)</option>
+                            <option value="POST">I want to send or submit(POST)</option>
+                            <option value="DELETE">I want to remove(DELETE)</option>
                         </select>
                     </div>
                     <br>
                     <div>
                         <label class="label" for="others">Others</label><br>
-                        <textarea class="textbox" id="others" name="others" rows="4" cols="50"></textarea>
+                        <textarea placeholder="Anything else?" class="textbox" id="others" name="others" rows="4"
+                            cols="50"></textarea>
                     </div>
                     <br>
                     <div>
@@ -58,12 +68,12 @@
             </div>
             <div class="code">
                 <div class="html">
-                    <div class='fa fa-html5 htmlLabel' style="font-size:23px;color:red" id='labels'>
-                        <span id='text'>HTML</span>
+                    <div style="font-size:23px;color:red" id='labels'>
+                        <span id='text'>Code</span>
                     </div>
                     <div class='editor' id='htmlEditor'></div>
                 </div>
-                <div class="css">
+                <!--                 <div class="css">
                     <div class='fa fa-css3 cssLabel' style="font-size:23px;color:red" id='labels'>
                         <span id='text'>CSS</span>
                     </div>
@@ -74,7 +84,7 @@
                         <span id='text'>Javascript</span>
                     </div>
                     <div class='editor' id='jsEditor'></div>
-                </div>
+                </div> -->
                 <button type="button" class="button downloadCode" onclick="downloadCode()"><i
                         class='fa fa-download'></i>Download Code</button>
             </div>
@@ -85,6 +95,7 @@
                 <div class="history-log" id="history-log">
                 </div>
             </div>
+            <button type="button" onclick="downloadHistory()">Download History</button>
         </div>
     </div>
 
