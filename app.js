@@ -237,8 +237,7 @@ document.getElementById('prompt-form').addEventListener('submit', function (even
 // history
 let counting = 0;
 let historyData = [];
-
-function loadHistory(finalPrompt, finalCode) {
+/* function loadHistory(finalPrompt, finalCode) {
 
     counting++
 
@@ -278,7 +277,63 @@ function loadHistory(finalPrompt, finalCode) {
         prompt: finalPrompt,
         code: finalCode
     });
+}  */
+
+function loadHistory(finalPrompt, finalCode){
+    if (finalPrompt && finalCode) {
+        counting++;
+        // Add new entry to historyData
+        historyData.push({
+            count: counting,
+            prompt: finalPrompt,
+            code: finalCode
+        });
+        // Save updated historyData to localStorage
+        localStorage.setItem('historyData', JSON.stringify(historyData));
+    } else {
+        // Load historyData from localStorage
+        const storedHistoryData = localStorage.getItem('historyData');
+        if (storedHistoryData) {
+            historyData = JSON.parse(storedHistoryData);
+            if (historyData.length > 0) {
+                counting = historyData[historyData.length - 1].count;
+            }
+        }
+    }
+
+    // Clear existing history-log content
+    const historyLogDiv = document.getElementById('history-log');
+    historyLogDiv.innerHTML = '';
+
+    // Render history entries
+    historyData.forEach(entry => {
+        const logCounting = document.createElement('div');
+        logCounting.classList.add('history-text-blue');
+        logCounting.textContent = `Log: ${entry.count}`;
+        const promptDiv = document.createElement('div');
+        promptDiv.classList.add('history-text-orange');
+        promptDiv.textContent = entry.prompt;
+        const promptTitle = document.createElement('div');
+        promptTitle.classList.add('history-text-orange');
+        promptTitle.textContent = "Your prompt";
+        const codeDiv = document.createElement('div');
+        codeDiv.classList.add('history-text');
+        codeDiv.textContent = entry.code;
+        const codeTitle = document.createElement('div');
+        codeTitle.classList.add('history-text');
+        codeTitle.textContent = "Generated code";
+        const spacing = document.createElement('div');
+        spacing.classList.add('spacing');
+
+        historyLogDiv.appendChild(logCounting);
+        historyLogDiv.appendChild(promptTitle);
+        historyLogDiv.appendChild(promptDiv);
+        historyLogDiv.appendChild(codeTitle);
+        historyLogDiv.appendChild(codeDiv);
+        historyLogDiv.appendChild(spacing);
+    });
 }
+
 
 // Function to convert image to base64
 function getBase64(file, callback) {
@@ -288,10 +343,25 @@ function getBase64(file, callback) {
     reader.onerror = (error) => console.log('Error: ', error);
 }
 
-function downloadHistory() {
+/* function downloadHistory() {
     let historyText = historyData.map(entry => {
         return `Log: ${entry.count}\nYour prompt: ${entry.prompt}\nGenerated code: ${entry.code}\n\n`;
     }).join('');
+
+    const blob = new Blob([historyText], { type: "text/plain" });
+    downloadFile(blob, "history.txt");
+} */
+
+function downloadHistory() {
+    const storedHistoryData = localStorage.getItem('historyData');
+    let historyText = '';
+
+    if (storedHistoryData) {
+        historyData = JSON.parse(storedHistoryData);
+        historyText = historyData.map(entry => {
+            return `Log: ${entry.count}\nYour prompt: ${entry.prompt}\nGenerated code: ${entry.code}\n\n`;
+        }).join('');
+    }
 
     const blob = new Blob([historyText], { type: "text/plain" });
     downloadFile(blob, "history.txt");
@@ -314,3 +384,7 @@ function setLoading(isLoading) {
         loadingElement.style.display = 'none';
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadHistory();
+});
