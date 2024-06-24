@@ -8,7 +8,7 @@ To start the backend server, follow these steps:
 
 2. Run the following command to start the backend
 
-   //node index.js
+   node index.js
 
 To start the frontend, follow these steps:
 
